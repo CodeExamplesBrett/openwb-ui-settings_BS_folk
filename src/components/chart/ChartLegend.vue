@@ -1,7 +1,7 @@
 <template>
   <StandardLegend
     v-if="showStandardLegend"
-    :key="range + '-' + legendVersion"
+    :key="range"
     :items="legendItems"
     @toggle="toggleDataset"
   />
@@ -29,14 +29,8 @@ export default {
       default: "day",
     },
   },
-  data() {
-    return {
-      standard: false,
-    };
-  },
   computed: {
     legendItems() {
-      //console.log("Chart or datasets not ready standard", this.chart);
       if (!this.chart || !this.chart.data || !Array.isArray(this.chart.data.datasets)) {
         return [];
       }
@@ -56,7 +50,6 @@ export default {
       }
       let categories = {};
       const hidden = this.$store.state.chartLegend.hiddenDatasets;
-      console.log("Categorizing legend items, hidden:", hidden);
       if (this.range === "day") {
         categories = { chargepoint: [], vehicle: [], component: [] };
       } else {
@@ -77,64 +70,40 @@ export default {
       return categories;
     },
     showStandardLegend() {
-      //Standard-Legende for less than 20 Items or if range is month or year
-      return this.legendItems.length < 15;
-      //|| this.range === "month" || this.range === "year";
+      return this.legendItems.length < 20;
     },
   },
   watch: {
     chart(newChart) {
-      if (newChart && newChart.data && Array.isArray(newChart.data.datasets)) {
-        // apply the Default-Hidden datasets when changing the time range
-        const defaultHidden = newChart.data.datasets
-          .filter((dataset) => dataset.hidden)
-          .map((dataset) => dataset.label);
-        this.$store.commit("chartLegend/setHiddenDatasets", defaultHidden);
-        this.applyHiddenDatasetsToChart();
-      }
+      this.defaultHiddenDatasets(newChart);
     },
   },
   mounted() {
-    console.log("ChartLegend mounted, chart:", this.chart);
-    const waitForChart = () => {
-      if (this.chart && this.chart.data && Array.isArray(this.chart.data.datasets)) {
-        const defaultHiddenDatasets = this.chart.data.datasets
-          .filter((dataset) => dataset.hidden)
-          .map((dataset) => dataset.label);
-        if (defaultHiddenDatasets.length) {
-          this.$store.commit("chartLegend/setHiddenDatasets", defaultHiddenDatasets);
-        }
-        this.applyHiddenDatasetsToChart();
-      } else {
-        setTimeout(waitForChart, 50);
-      }
-    };
-    waitForChart();
+    this.defaultHiddenDatasets(this.chart);
   },
   methods: {
-    toggleDataset(indexOrLabel) {
+    toggleDataset(label) {
       if (!this.chart) return;
-      // Hole das Label des Datasets
-      const dataset =
-        typeof indexOrLabel === "number"
-          ? this.chart.data.datasets[indexOrLabel]
-          : this.chart.data.datasets.find((dataset) => dataset.label === indexOrLabel);
-
+      const dataset = this.chart.data.datasets.find((dataset) => dataset.label === label);
+      console.log("Toggling dataset:", label, dataset);
       if (!dataset) return;
-
-      // Toggle im Store
       this.$store.commit("chartLegend/toggleDataset", dataset.label);
-
-      // Hidden-Status aus Store anwenden
       this.applyHiddenDatasetsToChart();
-
-      //this.legendVersion++; // erzwingt Neuberechnung
+    },
+    defaultHiddenDatasets(chart) {
+      if (chart && chart.data && Array.isArray(chart.data.datasets) && chart.data.datasets.length) {
+        const defaultHiddenDatasets = chart.data.datasets
+          .filter((dataset) => dataset.hidden)
+          .map((dataset) => dataset.label);
+        this.$store.commit("chartLegend/setHiddenDatasets", defaultHiddenDatasets);
+        this.applyHiddenDatasetsToChart();
+      }
     },
     applyHiddenDatasetsToChart() {
       if (!this.chart || !this.chart.data) return;
       const hidden = this.$store.state.chartLegend.hiddenDatasets;
-      this.chart.data.datasets.forEach((ds) => {
-        ds.hidden = hidden.includes(ds.label);
+      this.chart.data.datasets.forEach((dataset) => {
+        dataset.hidden = hidden.includes(dataset.label);
       });
       this.chart.update();
     },

@@ -36,8 +36,5 @@ export default {
       },
     };
   },
-  mounted() {
-    //console.log("LegendCategoriesGroup mounted with items:", this.categorizedItems);
-  },
 };
 </script>

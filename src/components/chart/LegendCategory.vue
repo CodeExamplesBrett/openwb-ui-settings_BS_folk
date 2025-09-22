@@ -31,7 +31,7 @@
             :stroke-dasharray="item.borderDash && item.borderDash.length ? item.borderDash.join(',') : ''"
           />
         </svg>
-        <span :class="{ 'text-decoration-line-through': item.hidden }">
+        <span :class="{ 'text-line-through': item.hidden }">
           {{ item.label }}
         </span>
       </li>
@@ -54,7 +54,6 @@ export default {
   },
   emits: ["toggle"],
   mounted() {
-    //console.log(`LegendCategory cat------ "${this.label}" mounted with items:`, this.items);
     // Initialise bootstrap Dropdown after Render
     if (window.$) {
       window.$(this.$el).find(".dropdown-toggle").dropdown();
@@ -64,7 +63,7 @@ export default {
 </script>
 
 <style scoped>
-.text-decoration-line-through {
+.text-line-through {
   text-decoration: line-through;
 }
 .legend-item-hidden {

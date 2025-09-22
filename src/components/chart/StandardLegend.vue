@@ -25,7 +25,7 @@
       </svg>
       <span
         class="legend-label"
-        :class="{ 'text-decoration-line-through': item.hidden }"
+        :class="{ 'text-line-through': item.hidden }"
       >
         {{ item.label }}
       </span>
@@ -66,7 +66,7 @@ export default {
 .legend-label {
   white-space: nowrap;
 }
-.text-decoration-line-through {
+.text-line-through {
   text-decoration: line-through;
 }
 </style>
