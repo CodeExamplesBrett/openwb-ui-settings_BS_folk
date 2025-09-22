@@ -1185,9 +1185,6 @@ export default {
     refreshLegend() {
       this.$nextTick(() => {
         this.chartInstance = this.$refs.myChart?.chart;
-        if (this.$refs.chartLegend && this.chartInstance) {
-          this.$refs.chartLegend.legendVersion++;
-        }
       });
     },
     handleChartClick(event) {
