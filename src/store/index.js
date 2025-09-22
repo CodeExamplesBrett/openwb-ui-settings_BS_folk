@@ -4,17 +4,9 @@ import { createStore } from "vuex";
 const chartLegend = {
   namespaced: true,
   state: () => ({
-    hiddenDatasets: [], // Array of Strings (Labels)
+    hiddenDatasets: [],
   }),
   mutations: {
-    hideDataset(state, label) {
-      if (!state.hiddenDatasets.includes(label)) {
-        state.hiddenDatasets.push(label);
-      }
-    },
-    showDataset(state, label) {
-      state.hiddenDatasets = state.hiddenDatasets.filter((l) => l !== label);
-    },
     toggleDataset(state, label) {
       if (state.hiddenDatasets.includes(label)) {
         state.hiddenDatasets = state.hiddenDatasets.filter((hiddenLabel) => hiddenLabel !== label);
@@ -24,9 +16,6 @@ const chartLegend = {
     },
     setHiddenDatasets(state, datasets) {
       state.hiddenDatasets = datasets;
-    },
-    clearHidden(state) {
-      state.hiddenDatasets = [];
     },
   },
 };
