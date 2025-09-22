@@ -98,11 +98,11 @@ export default {
     console.log("ChartLegend mounted, chart:", this.chart);
     const waitForChart = () => {
       if (this.chart && this.chart.data && Array.isArray(this.chart.data.datasets)) {
-        const defaultHidden = this.chart.data.datasets
+        const defaultHiddenDatasets = this.chart.data.datasets
           .filter((dataset) => dataset.hidden)
           .map((dataset) => dataset.label);
-        if (defaultHidden.length) {
-          this.$store.commit("chartLegend/setHiddenDatasets", defaultHidden);
+        if (defaultHiddenDatasets.length) {
+          this.$store.commit("chartLegend/setHiddenDatasets", defaultHiddenDatasets);
         }
         this.applyHiddenDatasetsToChart();
       } else {
@@ -118,7 +118,7 @@ export default {
       const dataset =
         typeof indexOrLabel === "number"
           ? this.chart.data.datasets[indexOrLabel]
-          : this.chart.data.datasets.find((ds) => ds.label === indexOrLabel);
+          : this.chart.data.datasets.find((dataset) => dataset.label === indexOrLabel);
 
       if (!dataset) return;
 

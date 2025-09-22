@@ -17,13 +17,13 @@ const chartLegend = {
     },
     toggleDataset(state, label) {
       if (state.hiddenDatasets.includes(label)) {
-        state.hiddenDatasets = state.hiddenDatasets.filter((l) => l !== label);
+        state.hiddenDatasets = state.hiddenDatasets.filter((hiddenLabel) => hiddenLabel !== label);
       } else {
         state.hiddenDatasets.push(label);
       }
     },
-    setHiddenDatasets(state, payload) {
-      state.hiddenDatasets = payload;
+    setHiddenDatasets(state, datasets) {
+      state.hiddenDatasets = datasets;
     },
     clearHidden(state) {
       state.hiddenDatasets = [];
