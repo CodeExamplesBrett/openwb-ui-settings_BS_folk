@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     legendItems() {
-      if (!this.chart || !this.chart.data || !Array.isArray(this.chart.data.datasets)) {
+      if (!this.chart || !this.chart.data) {
         return [];
       }
       const hidden = this.$store.state.chartLegend.hiddenDatasets;
@@ -70,7 +70,7 @@ export default {
       return categories;
     },
     showStandardLegend() {
-      return this.legendItems.length < 20;
+      return this.legendItems.length < 12;
     },
   },
   watch: {
@@ -91,7 +91,7 @@ export default {
       this.applyHiddenDatasetsToChart();
     },
     defaultHiddenDatasets(chart) {
-      if (chart && chart.data && Array.isArray(chart.data.datasets) && chart.data.datasets.length) {
+      if (chart && chart.data && chart.data.datasets.length) {
         const defaultHiddenDatasets = chart.data.datasets
           .filter((dataset) => dataset.hidden)
           .map((dataset) => dataset.label);

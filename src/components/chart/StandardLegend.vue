@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-legend d-flex flex-wrap">
+  <div class="custom-legend d-flex flex-wrap justify-content-center">
     <div
       v-for="item in items"
       :key="item.label"
@@ -50,7 +50,6 @@ export default {
 .custom-legend {
   cursor: pointer;
   font-size: 0.875rem;
-  user-select: none;
 }
 .legend-item {
   padding: 2px 6px;
