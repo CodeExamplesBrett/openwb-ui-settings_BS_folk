@@ -1002,8 +1002,8 @@ export default {
     },
     chartScaleX() {
       var scaleObject = {
-        unit: "minute",
-        tooltipFormat: "DD T",
+        unit: "hour",
+        tooltipFormat: "HH:mm",
         text: "Zeit",
         maxTicksLimit: 24,
       };
@@ -1110,11 +1110,21 @@ export default {
         if (Object.prototype.hasOwnProperty.call(chartEntries, "entries")) {
           chartEntries = chartEntries.entries;
         }
-        var myData = JSON.parse(JSON.stringify(chartEntries)).map((row) => {
-          row.timestamp = row.timestamp * 1000;
-          return row;
+        let myData = {};
+        JSON.parse(JSON.stringify(chartEntries)).forEach((row) => {
+          let roundedTimestamp = row.timestamp * 1000 - ((row.timestamp * 1000) % (60 * 60 * 1000));
+          if (this.chartRange === "day") {
+            // Only store the first value per hour for daily charts
+            if (!myData[roundedTimestamp]) {
+              let newRow = { ...row, timestamp: roundedTimestamp };
+              myData[roundedTimestamp] = newRow;
+            }
+          } else {
+            row.timestamp = row.timestamp * 1000;
+            myData[row.timestamp] = row;
+          }
         });
-        return myData;
+        return Object.values(myData);
       }
       return undefined;
     },
