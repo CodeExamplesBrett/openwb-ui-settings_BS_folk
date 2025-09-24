@@ -11,7 +11,6 @@
     @toggle="toggleDataset"
   />
 </template>
-
 <script>
 import LegendStandard from "./LegendStandard.vue";
 import LegendCategoriesGroup from "./LegendCategoriesGroup.vue";
