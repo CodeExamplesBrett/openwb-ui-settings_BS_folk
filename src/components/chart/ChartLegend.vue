@@ -1,5 +1,5 @@
 <template>
-  <StandardLegend
+  <LegendStandard
     v-if="showStandardLegend"
     :key="range"
     :items="legendItems"
@@ -13,12 +13,12 @@
 </template>
 
 <script>
-import StandardLegend from "./StandardLegend.vue";
+import LegendStandard from "./LegendStandard.vue";
 import LegendCategoriesGroup from "./LegendCategoriesGroup.vue";
 
 export default {
   name: "ChartLegend",
-  components: { LegendCategoriesGroup, StandardLegend },
+  components: { LegendCategoriesGroup, LegendStandard },
   props: {
     chart: {
       type: Object,
