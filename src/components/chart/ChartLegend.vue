@@ -84,7 +84,6 @@ export default {
     toggleDataset(label) {
       if (!this.chart) return;
       const dataset = this.chart.data.datasets.find((dataset) => dataset.label === label);
-      console.log("Toggling dataset:", label, dataset);
       if (!dataset) return;
       this.$store.commit("chartLegend/toggleDataset", dataset.label);
       this.applyHiddenDatasetsToChart();
