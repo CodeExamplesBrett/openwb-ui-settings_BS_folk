@@ -1162,9 +1162,8 @@ export default {
     },
   },
   watch: {
-    chartRange(newVal) {
+    chartRange() {
       this.init();
-      console.log("chartRange changed to", newVal);
     },
     chartDataRead: {
       handler(newValue) {
